@@ -1,0 +1,22 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t idoko/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - -e CI=true idoko/react-test npm run test -- --coverage
+
+after_sucess:
+  - docker build -t idoko/chaos-client ./client
+  - docker build -t idoko/chaos-nginx ./nginx
+  - docker build -t idoko/chaos-server ./server
+  - docker build -t idoko/chaos-worker ./worker
+  # Log in to the docker CLI and push the built images to
+  # docker hub
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  - docker push idoko/chaos-client
+  - docker push idoko/chaos-nginx
+  - docker push idoko/chaos-server
+  - docker push idoko/chaos-worker
