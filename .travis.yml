@@ -3,7 +3,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t idoko/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t idoko/client-test -f ./client/Dockerfile.dev ./client
 
 script:
   - -e CI=true idoko/react-test npm run test -- --coverage
