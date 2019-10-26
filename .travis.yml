@@ -4,7 +4,7 @@ services:
 
 before_install:
   - docker build -t idoko/react-test -f client/Dockerfile.dev ./client
-  
+
 script:
   - docker run -e CI=true idoko/react-test npm run test -- --coverage
 
@@ -20,3 +20,16 @@ after_success:
   - docker push idoko/chaos-nginx
   - docker push idoko/chaos-server
   - docker push idoko/chaos-worker
+
+deploy:
+  provider: elasticbeanstalk
+  region: us-east-1
+  app: chaos-docker
+  env: ChaosDocker-env
+  bucket_name: /elasticbeanstalk-us-east-1-245904285270
+  bucket_path: chaos-docker
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: 
+    secure: $AWS_SECRET_KEY
