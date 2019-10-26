@@ -26,10 +26,10 @@ deploy:
   region: us-east-1
   app: chaos-docker
   env: ChaosDocker-env
-  bucket_name: /elasticbeanstalk-us-east-1-245904285270
+  bucket_name: elasticbeanstalk-us-east-1-245904285270
   bucket_path: chaos-docker
   on:
     branch: master
   access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: 
+  secret_access_key:
     secure: $AWS_SECRET_KEY
